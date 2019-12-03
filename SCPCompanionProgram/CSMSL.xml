@@ -1,0 +1,2387 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CSMSL</name>
+    </assembly>
+    <members>
+        <member name="T:CSMSL.Analysis.Identification.MorpheusSearchEngine">
+            <summary>
+            High-resolution Proteomic Search Algorithm
+            </summary>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.MorpheusSearchEngine.Search(System.Double[],System.Double[],System.Double[],CSMSL.Tolerance,System.Double)">
+            <summary>
+            The main searching algorithm of Morpheus
+            </summary>
+            <param name="eMasses">The experimental masses</param>
+            <param name="eIntenisties">The experimental intensities</param>
+            <param name="tMasses">The theoretical masses</param>
+            <param name="productTolerance">The product mass tolerance</param>
+            <param name="tic">The total ion current of the experimental peaks</param>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.Analysis.Identification.MSSearchEngine.MaxMatchesPerSpectrum">
+            <summary>
+            Gets or sets the maximum number of peptide spectral matches to record per spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Identification.PeptideSpectralMatch.PrecursorMz">
+            <summary>
+            Theoretical Precursor M/Z
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Identification.PeptideSpectralMatch.Score">
+            <summary>
+            The score of the match between the peptide and spectrum.
+            </summary>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.PeptideSpectralMatch.CompareTo(CSMSL.Analysis.Identification.PeptideSpectralMatch)">
+            <summary>
+            Compares two PSM based on their score.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CSMSL.Analysis.Identification.FalseDiscoveryRate`2">
+            <summary>
+            An extension method to perform False Discovery Rate Filtering (FDR) on any type of lists.
+            Derek Bailey
+            </summary>
+            <typeparam name="TSource">The type of objects in the list (must implement IFalseDiscovery)</typeparam>
+            <typeparam name="TMetric">The type of scoring metric of the objects in the list (must implement IComparable)</typeparam>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.FalseDiscoveryRate`2.Filter(System.Boolean)">
+            <summary>
+            Filter the internal list of items and store the results in this object
+            </summary>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.FalseDiscoveryRate`2.Filter(System.Double,System.Boolean)">
+            <summary>
+            Filter the internal list of items at a given Maximum FDR rate and store the results in this object
+            </summary>
+            <param name="maxFdr">The maximum FDR to accept</param>
+            <param name="removeDuplicateItems">Calculate FDR on only unique items</param>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.FalseDiscoveryRate`2.Filter(System.Collections.Generic.IEnumerable{`0},System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            Filters a list using the object in the list's default comparer
+            </summary>
+            <param name="items">The items to filter</param>
+            <param name="maxFdr">The max fdr rate [0.0 - 1.0] to keep items</param>
+            <param name="removeDecoys">Remove the decoy items from the filtered list</param>
+            <param name="uniqueItems">Remove non-unique items before filtering</param>
+            <returns>A FDR Filtered list of items that are below the stated maxFDR level, can contain decoys if specified</returns>
+        </member>
+        <member name="M:CSMSL.Analysis.Identification.FalseDiscoveryRate`2.Filter(System.Collections.Generic.IEnumerable{`0},System.Collections.Generic.Comparer{`0},System.Double,System.Boolean,System.Boolean)">
+            <summary>
+            Filters a list using the specified comparer
+            </summary>
+            <param name="items">The items to filter</param>
+            <param name="maxFdr">>The max fdr rate [0.0 - 1.0] to keep items</param>
+            <param name="comparer">The comparer used to sort the items before filtering (you want the things you like to be at the top of the list)</param>
+            <param name="removeDecoys">Remove the decoy items from the filtered list</param>
+            <param name="uniqueItems">Remove non-unique items before filtering</param>
+            <returns>A FDR Filtered list of items that are below the stated maxFDR level, can contain decoys if specified</returns>
+        </member>
+        <member name="T:CSMSL.Analysis.Identification.IFalseDiscovery`1">
+            <summary>
+            An interface to filter lists based on the detection of decoy hits that are known to be wrong
+            </summary>
+            <typeparam name="T">The type of scoring metric of the object (must implement IComparable)</typeparam>
+        </member>
+        <member name="P:CSMSL.Analysis.Identification.IFalseDiscovery`1.IsDecoy">
+            <summary>
+            States whether the object is a Decoy hit (Known False Positive) or a Foward Hit (Unknown True Positive)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Identification.IFalseDiscovery`1.FdrScoreMetric">
+            <summary>
+            The scoring metric for the object
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Quantitation.IQuantitationChannel.IsSequenceDependent">
+            <summary>
+            Does this channel depend upon the peptide sequence to calculate its mass?
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Quantitation.IQuantitationChannel.ReporterMass">
+            <summary>
+            The mass of the reporter
+            </summary>
+        </member>
+        <member name="P:CSMSL.Analysis.Quantitation.IQuantitationChannel.Name">
+            <summary>
+            The name of the channel
+            </summary>
+        </member>
+        <member name="M:CSMSL.Analysis.Quantitation.IsobaricTagPurityCorrection.Create(System.Double[0:,0:])">
+            <summary>
+            Creates a matrix with the solutions to isobaric purity corrections
+            </summary>
+            <param name="purityValues"></param>
+            <returns></returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.ChemicalFormula">
+            <summary>
+            A chemical / molecule consisting of multiple atoms.
+            <remarks>This class is mutable</remarks>
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula.FormulaRegex">
+            <summary>
+            A regular expression for matching chemical formulas such as: C2C{13}3H5NO5
+            \s* (at end as well) allows for optional spacing among the elements, i.e. C2 C{13}3 H5 N O5
+            The first group is the only non-optional group and that handles the chemical symbol: H, He, etc..
+            The second group is optional, which handles alternative isotopes of elements: C{13} means carbon-13, while C is the common carbon-12
+            The third group is optional and indicates if we are adding or subtracting the elements form the formula, C-2C{13}5 would mean first subtract 2 carbon-12 and then add 5 carbon-13
+            The fourth group is optional and represents the number of isotopes to add, if not present it assumes 1: H2O means 2 Hydrogen and 1 Oxygen
+            Modified from: http://stackoverflow.com/questions/4116786/parsing-a-chemical-formula-from-a-string-in-c
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula.ValidateFormulaRegex">
+            <summary>
+            A wrapper for the formula regex that validates if a string is in the correct chemical formula format or not
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula.InternChemicalFormulaStrings">
+            <summary>
+            Determines if the chemical formula hill notation string is stored or calculated each time it is called.
+            True means the notation is stored as a string in the chemical formula (quicker, but more memory)
+            False means the notation is not stored as a string in the chemical formula (slower, no used memory)
+            Changing this value will not automatically delete the interned notations of formulas.
+            The default value is true.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula.Empty">
+            <summary>
+            The default empty chemicalFormula
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._isDirty">
+            <summary>
+            Indicates if the internal _isotope array has been modified, requiring necessary
+            clean up code to be performed.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._isFormulaDirty">
+            <summary>
+            Indicates if the Hill Notation string representation needs to be recalculated
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._isotopes">
+            <summary>
+            Main data store, the isotopes.
+            <remarks>Acts as a dictionary where each isotope's UniqueID
+            is the key (index) of this array. The array is front loaded to provide the most
+            common elements first (C H N O P) to reduce memory footprint and provide quick
+            addition/subtraction of formulas.</remarks>
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._largestIsotopeId">
+            <summary>
+            The index pointer to the largest isotope UniqueID currently contained in
+            int[] _isotopes
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._averageMass">
+            <summary>
+            The average mass of the chemical formula
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._atomCount">
+            <summary>
+            The number of atoms in this chemical formula. Atoms represent individual isotopes
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._elementCount">
+            <summary>
+            The number of unique elements in this chemical formula.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._isotopeCount">
+            <summary>
+            The number of unique isotopes in this chemical formula.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.ChemicalFormula._chemicalFormulaString">
+            <summary>
+            The Hill Notation string for this chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.#ctor">
+            <summary>
+            Create an empty chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.#ctor(System.Int32)">
+            <summary>
+            Create an empty chemical formula with space for the largest ID
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.#ctor(System.String)">
+            <summary>
+            Create an chemical formula from the given string representation
+            </summary>
+            <param name="chemicalFormula">The string representation of the chemical formula</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.#ctor(CSMSL.Chemistry.IChemicalFormula)">
+            <summary>
+            Create an chemical formula from an item that contains a chemical formula
+            </summary>
+            <param name="item">The item of which a new chemical formula will be made from</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.#ctor(CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Create a copy of a chemical formula from another chemical formula
+            </summary>
+            <param name="other">The chemical formula to copy</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.ChemicalFormulaConstructor(System.Int32,System.Int32)">
+            <summary>
+            Helper method for constructing new chemical formulas
+            </summary>
+            <param name="largestId"></param>
+            <param name="larestIsotope"></param>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.AverageMass">
+            <summary>
+            Gets the average mass of this chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.MonoisotopicMass">
+            <summary>
+            Gets the monoisotopic mass of this chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.AtomCount">
+            <summary>
+            Gets the number of atoms in this chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.ElementCount">
+            <summary>
+            Gets the number of unique chemical elements in this chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.IsotopeCount">
+            <summary>
+            Gets the number of unique chemical isotopes in this chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormula.Formula">
+            <summary>
+            Gets the string representation (Hill Notation) of this chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Replace(CSMSL.Chemistry.Isotope,CSMSL.Chemistry.Isotope)">
+            <summary>
+            Replaces one isotope with another.
+            Replacement happens on a 1 to 1 basis, i.e., if you remove 5 you will add 5
+            </summary>
+            <param name="isotopeToRemove">The isotope to remove</param>
+            <param name="isotopToAdd">The isotope to add</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Add(CSMSL.Chemistry.IChemicalFormula)">
+            <summary>
+            Add a chemical formula containing object to this chemical formula
+            </summary>
+            <param name="item">The object that contains a chemical formula</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Add(CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Add a chemical formula to this chemical formula.
+            </summary>
+            <param name="formula">The chemical formula to add to this</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Add(CSMSL.Chemistry.Element,System.Int32)">
+            <summary>
+            Add the principal isotope of the element to this chemical formula
+            </summary>
+            <param name="element">The element to add</param>
+            <param name="count">The number of the element to add</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Add(System.String,System.Int32)">
+            <summary>
+            Add the principal isotope of the element to this chemical formula
+            given its chemical symbol
+            </summary>
+            <param name="symbol">The chemical symbol of the element to add</param>
+            <param name="count">The number of the element to add</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Add(CSMSL.Chemistry.Isotope,System.Int32)">
+            <summary>
+            Add an isotope to this chemical formula
+            </summary>
+            <param name="isotope">The isotope to add</param>
+            <param name="count">The number of the isotope to add</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(CSMSL.Chemistry.IChemicalFormula)">
+            <summary>
+            Remove a chemical formula containing object from this chemical formula
+            </summary>
+            <param name="item">The object that contains a chemical formula</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Remove a chemical formula from this chemical formula
+            </summary>
+            <param name="formula">The chemical formula to remove</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(System.String,System.Int32)">
+            <summary>
+            Remove the principal isotope of the element represented by the symbol
+            from this chemical formula
+            </summary>
+            <param name="symbol">The symbol of the chemical element to remove</param>
+            <param name="count">The number of isotopes to remove</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(CSMSL.Chemistry.Isotope,System.Int32)">
+            <summary>
+            Remove a isotope from this chemical formula
+            </summary>
+            <param name="isotope">The isotope to remove</param>
+            <param name="count">The number of isotopes to remove</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(CSMSL.Chemistry.Isotope)">
+            <summary>
+            Completely removes a particular isotope from this chemical formula.
+            </summary>
+            <param name="isotope">The isotope to remove</param>
+            <returns>True if the isotope was in the chemical formula and removed, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(System.String)">
+            <summary>
+            Remove all the isotopes of an chemical element represented by the symbol
+            from this chemical formula
+            </summary>
+            <param name="symbol">The symbol of the chemical element to remove</param>
+            <returns>True if the element was present and removed, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Remove(CSMSL.Chemistry.Element)">
+            <summary>
+            Remove all the isotopes of an chemical element from this
+            chemical formula
+            </summary>
+            <param name="element">The chemical element to remove</param>
+            <returns>True if the element was present and removed, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Clear">
+            <summary>
+            Remove all isotopes from this chemical formula to create an 'empty' chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Contains(CSMSL.Chemistry.Isotope)">
+            <summary>
+            Checks if the isotope is present in this chemical formula
+            </summary>
+            <param name="isotope">The isotope to look for</param>
+            <returns>True if there is a non-negative number of the isotope in this formula</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Contains(CSMSL.Chemistry.Element)">
+            <summary>
+            Checks if any isotope of the specified element is present in this chemical formula
+            </summary>
+            <param name="element">The element to look for</param>
+            <returns>True if there is a non-zero number of the element in this formula</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.IsSuperSetOf(CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Checks whether this formula contains all the isotopes of the specified formula
+            </summary>
+            <param name="formula"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Count(CSMSL.Chemistry.Isotope)">
+            <summary>
+            Return the number of given isotopes in this chemical fomrula
+            </summary>
+            <param name="isotope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.Count(CSMSL.Chemistry.Element)">
+            <summary>
+            Count the number of isotopes from this element are
+            present in this chemical formula
+            </summary>
+            <param name="element">The element to search for</param>
+            <returns>The total number of all the element isotopes in this chemical formula</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetNeutronCount">
+            <summary>
+            Gets the total number of neutrons in this chemical formula
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetProtonCount">
+            <summary>
+            Gets the total number of protons in this chemical formula
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetCarbonHydrogenRatio">
+            <summary>
+            Gets the ratio of the number of Carbon to Hydrogen in this chemical formula
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetElements">
+            <summary>
+            Gets the unique elements in this chemical formula
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.ToString(System.String)">
+            <summary>
+            Returns the chemical formula with each element separated by the
+            specified delimiter
+            </summary>
+            <param name="delimiter">The delimiter to separate elements by</param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.CleanUp">
+            <summary>
+            Recalculate parameters of the chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetHillNotation(System.String)">
+            <summary>
+            Produces the Hill Notation of the chemical formula
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.ParseString(System.String)">
+            <summary>
+            Parses a string representation of chemical formula and adds the elements
+            to this chemical formula
+            </summary>
+            <param name="formula">the Chemical Formula to parse</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormula.GetIsotopes">
+            <summary>
+            Get the internal isotope array for this chemical formula as a deep copy.
+            </summary>
+            <returns>The isotopes that make up this chemical formula</returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.ChemicalFormulaGenerator">
+            <summary>
+            A chemical formula generator for constructing all possible chemical formulas within a mass range given
+            restraints on the total number of isotopes.
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormulaGenerator.MaximumFormula">
+            <summary>
+            The maximum formula that can be generated.
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.ChemicalFormulaGenerator.MinimumFormula">
+            <summary>
+            The minimum formula that every generated formula has to contain
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormulaGenerator.#ctor">
+            <summary>
+            Create a empty generator, which will produce no formulas unless a constraint is added
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormulaGenerator.#ctor(CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Creates a generator with a maximum chemical formula allowed
+            </summary>
+            <param name="maximumChemicalFormula">The maximum chemical formula to generate</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormulaGenerator.#ctor(CSMSL.Chemistry.ChemicalFormula,CSMSL.Chemistry.ChemicalFormula)">
+            <summary>
+            Creates a generator with a maximum chemical formula allowed
+            </summary>
+            <param name="minimumChemicalFormula"></param>
+            <param name="maximumChemicalFormula">The maximum chemical formula to generate</param>
+        </member>
+        <member name="M:CSMSL.Chemistry.ChemicalFormulaGenerator.AllFormulas">
+            <summary>
+            Generate all formulas regardless of mass between the min and max formula
+            </summary>
+            <returns>A list of chemical formulas</returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.Element">
+            <summary>
+            Represents a single chemical element. Elements comprises of multiple
+            isotopes, with the element mass being a weighted average of all the
+            isotopes atomic masses weighted by their natural relative abundance.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.Element.Isotopes">
+            <summary>
+            The element's isotopes stored based on their atomic number
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.Item(System.Int32)">
+            <summary>
+            Gets an isotope of this element based on its atomic number
+            </summary>
+            <param name="atomicNumber">The atomic number of the isotope to get</param>
+            <returns>The isotope with the supplied atomic number</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.Element.#ctor(System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            Create a new element
+            </summary>
+            <param name="name">The name of the element</param>
+            <param name="symbol">The symbol of the element</param>
+            <param name="atomicNumber">The atomic number of the element</param>
+            <param name="valenceElectrons">The number of valence electrons of the element</param>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.AtomicNumber">
+            <summary>
+            The atomic number of this element (also the number of protons)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.AtomicSymbol">
+            <summary>
+            The atomic symbol of this element
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.AverageMass">
+            <summary>
+            The average mass of all this element's isotopes weighted by their
+            relative natural abundance (in unified atomic mass units)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.TotalAbundance">
+            <summary>
+            The total abundance of all this isotopes (should be nearly one, any deviation
+            is due to the lack of precision in the raw NIST data)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.ValenceElectrons">
+            <summary>
+            The total number of valence electrons for this element
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.PrincipalIsotope">
+            <summary>
+            The most abundant (principal) isotope of this element
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.Name">
+            <summary>
+            The name of this element
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Element.IsotopeCount">
+            <summary>
+            The number of isotopes this element comprises of (only isotopes with
+            natural relative abundances > 0% are considered)
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.Element.ToString">
+            <summary>
+            Returns a textual representation of this element in the following format: Hydrogen (H) Helium (He)
+            </summary>
+            <returns>The name and atomic symbol</returns>
+        </member>
+        <member name="F:CSMSL.Chemistry.Element._totalMass">
+            <summary>
+            The sum of the weighted isotope masses
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.Element.AddIsotope(System.Int32,System.Double,System.Single)">
+            <summary>
+            Add an isotope to this element
+            </summary>
+            <param name="atomicNumber">The atomic number of the isotope</param>
+            <param name="atomicMass">The atomic mass of the isotope </param>
+            <param name="abundance">The natural relative abundance of the isotope</param>
+            <returns>The created isotopes that is added to this element</returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.IChemicalFormula">
+            <summary>
+            An object that has a chemical formula
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.IChemicalFormula.ChemicalFormula">
+            <summary>
+            The chemical formula of this object
+            </summary>
+        </member>
+        <member name="T:CSMSL.Chemistry.Isotope">
+            <summary>
+            Represents a single isotope of a chemical element. Contains a unique number
+            of protons and neutrons compared to every other isotope.
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.Isotope.#ctor(CSMSL.Chemistry.Element,System.Int32,System.Double,System.Single)">
+            <summary>
+            Create a new isotope
+            </summary>
+            <param name="parentElement">The parent element of the isotope</param>
+            <param name="massNumber">The mass number of the isotope</param>
+            <param name="atomicMass">The atomic mass of the isotope</param>
+            <param name="abundance">The natural relative abundance of the isotope</param>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.UniqueId">
+            <summary>
+            Unique numerical ID used to optimized chemical formula construction
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.IsPrincipalIsotope">
+            <summary>
+            Is this the most abundant isotope of its parent element?
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.AtomicSymbol">
+            <summary>
+            The atomic symbol for this isotope
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.ValenceElectrons">
+            <summary>
+            The number of valence electrons for this element
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.AtomicNumber">
+            <summary>
+            The atomic number of the isotope's parent element (also the number of protons)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.Protons">
+            <summary>
+            The number of protons in this isotope
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.Neutrons">
+            <summary>
+            The number of neutrons in this isotope
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.Element">
+            <summary>
+            The element this isotope is apart of (based on atomic number)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.AtomicMass">
+            <summary>
+            The atomic mass of this isotope (in unified atomic mass units)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.MassNumber">
+            <summary>
+            The total number of nucleons (protons and neutrons) in this isotope
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.Isotope.RelativeAbundance">
+            <summary>
+            The relative natural abundance of this isotope in nature (on Earth)
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.Isotope.ToString">
+            <summary>
+            Returns a textual representation of this isotope in the following format: H1 He4 O16
+            </summary>
+            <returns>The atomic symbol and mass number combined</returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.IsotopicDistribution">
+             <summary>
+             Calculates the isotopic distributions of molecules
+             </summary>
+             <remarks>
+             C# version by Derek Bailey 2014
+            
+             This is a port of software written in C++ and detailed in the following publication:
+            
+             Molecular Isotopic Distribution Analysis (MIDAs) with Adjustable Mass Accuracy.
+             Gelio Alves, Aleksy Y. Ogurtsov, and Yi-Kuo Yu
+             J. Am. Soc. Mass Spectrom. (2014) 25:57-70
+             DOI: 10.1007/s13361-013-0733-7
+            
+             Please cite that publication if using these algorithms in your own publications.
+             </remarks>
+        </member>
+        <member name="T:CSMSL.Chemistry.PeriodicTable">
+            <summary>
+            The Periodic Table of Elements.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.PeriodicTable._elements">
+            <summary>
+            The internal dictionary housing all the elements, keyed by their unique atomic symbol
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.PeriodicTable.RecommendedId">
+            <summary>
+            The default size for chemical formula arrays. This is recommend based on the 5 most common elements for proteomics (C H O N P)
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.PeriodicTable.Load(System.String)">
+            <summary>
+            Load a xml file containing elemental and isotopic data into the periodic table
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.PeriodicTable._isotopes">
+            <summary>
+            The main data store for all the isotopes in this periodic table. The isotope unique ID serves as the index in the array, these IDs are unique for each isotope.
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.PeriodicTable.GetIsotope(System.Int32)">
+            <summary>
+            Get an isotope based on its unique isotope id
+            </summary>
+            <param name="uniqueId">The unique isotope id of isotope to get</param>
+            <returns>An isotope</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.PeriodicTable.AddElement(CSMSL.Chemistry.Element)">
+            <summary>
+            Adds an element to this periodic table if the element atomic symbol is not already present.
+            Overrides an element if the symbol is already present.
+            </summary>
+            <param name="element">The element to add to the periodic table</param>
+            <returns>True if the element was not present before, false if the element existed and was overwritten</returns>
+        </member>
+        <member name="T:CSMSL.Chemistry.IMass">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:CSMSL.Chemistry.IMass.MonoisotopicMass">
+            <summary>
+            The monoisotopic mass of this object
+            </summary>
+        </member>
+        <member name="F:CSMSL.Chemistry.MassExtensions.MassEqualityEpsilon">
+            <summary>
+            The mass difference tolerance for having identical masses
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.MassExtensions.ToMz(CSMSL.Chemistry.IMass,System.Int32,System.Int32)">
+            <summary>
+            Converts the object that has a mass into a m/z value based on the charge state
+            </summary>
+            <param name="mass"></param>
+            <param name="charge"></param>
+            <param name="c13Isotope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.MassExtensions.ToMass(CSMSL.Chemistry.IMass,System.Int32,System.Int32)">
+            <summary>
+            Converts the object that has a m/z into a mass value based on the charge state
+            </summary>
+            <param name="mz"></param>
+            <param name="charge"></param>
+            <param name="c13Isotope"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.Chemistry.Mass.MonoisotopicMass">
+            <summary>
+            The mass of all the isotopes (in unified atomic mass units)
+            </summary>
+        </member>
+        <member name="M:CSMSL.Chemistry.Mass.MassFromMz(System.Double,System.Int32)">
+            <summary>
+            Calculates the mass of a given m/z and charge, assuming a proton is the charge donator
+            </summary>
+            <param name="mz">The given m/z</param>
+            <param name="charge">The given charge</param>
+            <returns>The mass</returns>
+        </member>
+        <member name="M:CSMSL.Chemistry.Mass.MzFromMass(System.Double,System.Int32)">
+            <summary>
+            Calculates the m/z of a given mass and chargem assuming a proton is the charge donator
+            </summary>
+            <param name="mass">The given mass</param>
+            <param name="charge">The given charge</param>
+            <returns>The m/z</returns>
+        </member>
+        <member name="T:CSMSL.UtilExtension">
+            A collection of extension methods used in CSMSL
+        </member>
+        <member name="M:CSMSL.UtilExtension.FussyEquals(System.Double,System.Double,System.Double)">
+            <summary>
+            Compares two doubles for equality based on their absolute difference being less
+            than some specified tolerance.
+            </summary>
+            <param name="item1"></param>
+            <param name="item2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.UtilExtension.FussyEquals(System.Single,System.Single,System.Double)">
+            <summary>
+            Compares two doubles for equality based on their absolute difference being less
+            than some specified tolerance.
+            </summary>
+            <param name="item1"></param>
+            <param name="item2"></param>
+            <param name="tolerance"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.ScrambledEquals``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Checks if two collections are equivalent, regardless of the order of their contents
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list1"></param>
+            <param name="list2"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.SubArray``1(``0[],System.Int32,System.Int32)">
+            <summary>
+            Extracts a subarray from a larger array (similar to String.Substring)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <param name="index"></param>
+            <param name="length"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.Median(System.Collections.Generic.List{System.Double})">
+            <summary>
+            Calculates the median value of a list of numerical values
+            </summary>
+            <param name="values">A list of double values</param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.StdDev(System.Collections.Generic.IList{System.Double})">
+            <summary>
+            Calculates the standard deviation of a list of numerical values
+            </summary>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.MaxIndex``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Finds the index of the maximum value in a collection
+            </summary>
+            <typeparam name="TSource"></typeparam>
+            <param name="items">The collection of items</param>
+            <returns>An index to the place of the maximum value in the collection</returns>
+        </member>
+        <member name="M:CSMSL.CollectionExtension.MaxIndex``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1},``0@)">
+            <summary>
+            Finds the index of the maximum value in a collection
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="items">The collection of items</param>
+            <param name="maxValue">The maximum value in the collection</param>
+            <returns>An index to the place of the maximum value in the collection</returns>
+        </member>
+        <member name="M:CSMSL.ByteArrayExtension.Compress(System.Byte[])">
+            <summary>
+            Compresses a byte array using Gzip compression
+            </summary>
+            <param name="bytes">The byte array to compress</param>
+            <returns>The compressed byte array</returns>
+        </member>
+        <member name="M:CSMSL.ByteArrayExtension.Decompress(System.Byte[])">
+            <summary>
+            Decompresses a byte array using Gzip decompression
+            </summary>
+            <param name="bytes">The byte array to decompress</param>
+            <returns>The decompressed byte array</returns>
+        </member>
+        <member name="M:CSMSL.ByteArrayExtension.IsCompressed(System.Byte[])">
+            <summary>
+            Checks if the byte array is compressed using Gzip compression.
+            </summary>
+            <param name="bytes">The byte array to check for compression</param>
+            <returns></returns>
+        </member>
+        <member name="T:CSMSL.Constants">
+             <summary>
+             A collection of immutable constants and physical properties.
+             Masses are given for the most abundant isotope unless otherwise stated
+            
+             Sources include:
+             http://physics.nist.gov/cuu/Constants/index.html
+             </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Electron">
+            <summary>
+            The mass of the subatomic particle with a single negative elementary charge in
+            atomic units (u)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Proton">
+            <summary>
+            The mass of the subatomic particle with a single elementary charge in atomic
+            units (u)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Carbon">
+            <summary>
+            The mass of the most common isotope of carbon in atomic units (u)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.C13C12Difference">
+            <summary>
+            The mass difference between carbon 13 and 12 isotopes, often used for isotopic distributions
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Hydrogen">
+            <summary>
+            The mass of the most common isotope of hydrogen in atomic units (u)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Oxygen">
+            <summary>
+            The mass of the most common isotope of hydrogen in atomic units (u)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Constants.Water">
+            <summary>
+            The mass of the molecule H20 given in atomic units (u) of the most common isotopes
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.Fasta.ToDecoy(System.String,CSMSL.IO.DecoyDatabaseMethod,System.Boolean,System.Boolean)">
+            <summary>
+            Generate a decoy version of the given fasta
+            </summary>
+            <param name="preText">The pretext to add to the description to indicated this is a decoy fasta</param>
+            <param name="method">The decoy generation type</param>
+            <param name="excludeNTerminus">Exclude the n-terminal amino acid</param>
+            <param name="onlyIfNTerminusIsMethionine">Exclude the n-terminal amino aicd only if it is a Methionine</param>
+            <returns>The generated decoy fasta</returns>
+        </member>
+        <member name="M:CSMSL.IO.Fasta.GenerateDecoySequence(System.String,CSMSL.IO.DecoyDatabaseMethod,System.Boolean,System.Boolean)">
+             Method to generate decoy sequence according to a given input sequence and other options like
+             decoy type and whether to exclude N-terminus.
+            
+        </member>
+        <member name="T:CSMSL.IO.MSDataFile`1">
+            <summary>
+            A data file for storing data collected from a Mass Spectrometer
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MSDataFile`1.CacheScans">
+            <summary>
+            Defines if MS scans should be cached for quicker retrieval. Cached scans are held in an internal
+            array and don't get cleared until the file is disposed or the ClearCacheScans() method is called.
+            Of course, if you store the scans somewhere else, they will persist. The default value is True.
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.MSDataFile`1.GetParentSpectrumNumber(System.Int32)">
+            <summary>
+            Get the spectrum number of the parent scan that caused this scan to be executed.
+            Typically MS1s will return 0 and MS2s will return the preceding MS1 scan (if in DDA mode)
+            </summary>
+            <param name="spectrumNumber">The spectrum number to get the parent scan number of</param>
+            <returns>The spectrum number of the parent scan. 0 if no parent</returns>
+        </member>
+        <member name="M:CSMSL.IO.MSDataFile`1.GetMsScan(System.Int32)">
+            <summary>
+            Get the MS Scan at the specific spectrum number.
+            </summary>
+            <param name="spectrumNumber">The spectrum number to get the MS Scan at</param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.IO.MSDataFile`1.Open">
+            <summary>
+            Open up a connection to the underlying MS data stream
+            </summary>
+        </member>
+        <member name="T:CSMSL.IO.MzTab.MzTab">
+            <summary>
+            mzTab: exchange format for proteomics and metabolomics results
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.FieldSeparator">
+            <summary>
+            The column separator is a tab character
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.DefaultEncoding">
+            <summary>
+            The default encoding is UTF8
+            </summary>
+            <remarks>
+            http://stackoverflow.com/questions/2437666/write-text-files-without-byte-order-mark-bom
+            </remarks>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.MultipleEntryRegex">
+            <summary>
+            A regex for extracting the index part of a multiple field
+            <para>
+            i.e. fixed_mod[1] fixed_mod[5] etc..
+            </para>
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.CaseSensitive">
+            <summary>
+            All column labels and field names are case-sensitive
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.IndexBased">
+            <summary>
+            Arrays are 1-based
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.NullFieldText">
+            <summary>
+            Missing Field Null Text
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.OptionalColumnPrefix">
+            <summary>
+            Optional Field Prefix
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.Version">
+            <summary>
+            Version of the mzTab specification 
+            <para>
+            20 June 2014
+            </para>
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.DateFormat">
+            <summary>
+            The mzTab format for date (ISO 8601)
+            </summary>
+        </member>
+        <member name="F:CSMSL.IO.MzTab.MzTab.DateTimeFormat">
+            <summary>
+            The mzTab format for datetime (ISO 8601)
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.MzTab.MzTabEntity.GetHeader``1(System.Collections.Generic.IList{``0})">
+            <summary>
+            Gets the header row data from a list of data
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.IO.MzTab.MzTabPeptide.Sequence">
+            <summary>
+            The peptide's sequence corresponding to the PSM
+            </summary>
+        </member>
+        <member name="P:CSMSL.IO.MzTab.MzTabPSM.Sequence">
+            <summary>
+            The peptide's sequence corresponding to the PSM
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.MzTab.MzTabReader.Open">
+            <summary>
+            Opens up the mzTab file and parses all the information into memory
+            </summary>
+        </member>
+        <member name="T:CSMSL.IO.MzTab.MzTabSection">
+            <summary>
+            The sections of a mzTab file
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.MzTab.MzTabWriter.WriteLine">
+            <summary>
+            Writes a blank line to the file, parsers should skip these lines
+            </summary>
+        </member>
+        <member name="M:CSMSL.IO.MzTab.MzTabWriter.WriteLine(System.String)">
+            <summary>
+            Writes a line to output file as is, therefore it must be in the correct format or
+            other parsers may not correctly read the line.
+            </summary>
+            <param name="line"></param>
+        </member>
+        <member name="M:CSMSL.DoubleRange.#ctor">
+            <summary>
+            Creates a range from 0 to 0
+            </summary>
+        </member>
+        <member name="M:CSMSL.DoubleRange.#ctor(System.Double,System.Double)">
+            <summary>
+            Creates a range from the minimum to maximum values
+            </summary>
+            <param name="minimum">The minimum value of the range</param>
+            <param name="maximum">The maximum value of the range</param>
+        </member>
+        <member name="M:CSMSL.DoubleRange.#ctor(CSMSL.IRange{System.Double})">
+            <summary>
+            Creates a range from another double range. This is the
+            clone constructor.
+            </summary>
+            <param name="range">The other range to copy</param>
+        </member>
+        <member name="M:CSMSL.DoubleRange.#ctor(System.Double,CSMSL.Tolerance)">
+            <summary>
+            Creates a range around some mean value with a specified tolerance.
+            <para>
+            i.e. 10 ppm at 500 would give you 499.9975 - 500.0025
+            which has a width of 0.005. Converting back to ppm
+            (1e6) *0.005 / 500 = 10 ppm.
+            </para>
+            <para>
+            The difference from the mean value to an boundary is exactly
+            half the tolerance you specified
+            </para>
+            </summary>
+            <param name="mean">The mean value for the range</param>
+            <param name="tolerance">The tolerance range</param>
+        </member>
+        <member name="P:CSMSL.DoubleRange.Mean">
+            <summary>
+            The mean value of this range:
+            (Max + Min) / 2
+            </summary>
+        </member>
+        <member name="P:CSMSL.DoubleRange.Width">
+            <summary>
+            The width of this range:
+            (Max - Min)
+            </summary>
+        </member>
+        <member name="M:CSMSL.DoubleRange.ToPPM">
+            <summary>
+            Calculates the ppm tolerance value for this range:
+            1e6 * Width / Mean;
+            </summary>
+            <returns>The ppm</returns>
+        </member>
+        <member name="M:CSMSL.DoubleRange.ToString(System.String)">
+            <summary>
+            Returns a string representation of this range at the given numerical format
+            </summary>
+            <param name="format">The format to display the double values</param>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.Proteomics.ChemicalFormulaModification.ChemicalFormula">
+            <summary>
+            The Chemical Formula of this modifications
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.Isotopologue.GetExpectedSpacings``1(System.Collections.Generic.IList{``0},System.Int32)">
+            <summary>
+            Calculate the expected spacings between a group of Peptides (channels) in Th
+            </summary>
+            <param name="peptides">The peptides to calculate the spacings between</param>
+            <param name="charge">The charge state of those peptides</param>
+            <returns>An array of Th spacings between each peptide in increasing m/z</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.ModificationDictionary.Load">
+            <summary>
+            Load the default modification file
+            If the default modification is missing or corrupted, it will auto generate it
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.ModificationDictionary.Load(System.String)">
+            <summary>
+            Load a modification file
+            </summary>
+            <param name="filePath">The path to the modification file</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.ModificationDictionary.Save">
+            <summary>
+            Saves the current modifications and isotopologues to the default modification file
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.ModificationDictionary.SaveTo(System.String)">
+            <summary>
+            Saves the current modifications and isotopologues
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.IAminoAcidSequence.Sequence">
+            <summary>
+            The amino acid sequence
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.IAminoAcidSequence.GetLeucineSequence">
+            <summary>
+            The amino acid sequence with all 'I' replaced with 'L'
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.Proteomics.IAminoAcidSequence.Length">
+            <summary>
+            The length of the amino acid sequence
+            </summary>
+        </member>
+        <member name="T:CSMSL.Proteomics.IProtease">
+            <summary>
+            A proteolyic enzyme that cuts amino acids at specific residues.
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.IProtease.GetDigestionSites(System.String)">
+            <summary>
+            Finds the indicies of where this protease would cut in
+            the given amino acid sequence
+            </summary>
+            <param name="aminoAcidSequence">The Amino Acid Polymer to cut</param>
+            <returns>A set of the 1-based indicies to cut at</returns>
+        </member>
+        <member name="T:CSMSL.Proteomics.Modification">
+            <summary>
+            Represents a modification with a mass and name and default amino acid sites of modification
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.Modification.Empty">
+            <summary>
+            The default empty modification
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Modification.Name">
+            <summary>
+            The name of the modification
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Modification.MonoisotopicMass">
+            <summary>
+            The monoisotopic mass of the modification, commoningly known as the delta mass
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Modification.Sites">
+            <summary>
+            The potentially modified sites of this modification
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Modification.NameAndSites">
+            <summary>
+            Displays the name of the mod and the sites it modified in a formated string
+            </summary>
+        </member>
+        <member name="T:CSMSL.Proteomics.AminoAcidPolymer">
+            <summary>
+            A linear polymer of amino acids
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer.DefaultCTerminus">
+            <summary>
+            The default chemical formula of the C terminus (hydroxyl group)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer.DefaultNTerminus">
+            <summary>
+            The default chemical formula of the N terminus (hydrogen)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.StoreSequenceString">
+            <summary>
+            Defines if newly generated Amino Acid Polymers will store the amino acid sequence as a string
+            or generate the string dynamically. If true, certain operations will be quicker at the cost of
+            increased memory consumption. Default value is True.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._cTerminus">
+            <summary>
+            The C-terminus chemical formula cap. This is different from the C-Terminus modification.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._nTerminus">
+            <summary>
+            The N-terminus chemical formula cap. This is different from the N-Terminus modification.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._modifications">
+            <summary>
+            All of the modifications indexed by position from N to C. This array is 2 bigger than the amino acid array
+            as index 0 and Count - 1 represent the N and C terminus, respectively
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._aminoAcids">
+            <summary>
+            All of the amino acid residues indexed by position from N to C.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._sequenceWithMods">
+            <summary>
+            The amino acid sequence with modification names interspersed. Is ignored if 'StoreSequenceString' is false
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.AminoAcidPolymer._sequence">
+            <summary>
+            The amino acid sequence. Is ignored if 'StoreSequenceString' is false
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.IsDirty">
+            <summary>
+            The internal flag to represent that the sequence with modifications have been changed and need to be updated
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.#cctor">
+            <summary>
+            Static constructor, sets the default parameters for all amino acid polymers
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.CTerminus">
+            <summary>
+            Gets or sets the C terminus of this amino acid polymer
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.NTerminus">
+            <summary>
+            Gets or sets the N terminus of this amino acid polymer
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.Length">
+            <summary>
+            Gets the number of amino acids in this amino acid polymer
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.MonoisotopicMass">
+            <summary>
+            The total monoisotopic mass of this peptide and all of its modifications
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.Modifications">
+            <summary>
+            The internal data store for the modifications (2 larger than the length to handle the N and C termini)
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.AminoAcids">
+            <summary>
+            The internal data store for the amino acids
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetLeucineSequence">
+            <summary>
+            Returns the amino acid sequence with all isoleucines (I) replaced with leucines (L);
+            </summary>
+            <returns>The amino acid sequence with all I's into L's</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.Contains(System.Char)">
+            <summary>
+            Checks if an amino acid residue with the value of 'residue' is contained in this polymer
+            </summary>
+            <param name="residue">The character code for the amino acid residue</param>
+            <returns>True if any amino acid residue is the same as the specified character</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.Contains(CSMSL.Proteomics.IAminoAcid)">
+            <summary>
+            Checks if the amino acid residue is contained in this polymer
+            </summary>
+            <param name="residue">The residue to check for</param>
+            <returns>True if the polymer contains the specified residue, False otherwise</returns>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.Sequence">
+            <summary>
+            Gets the base amino acid sequence
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.SequenceWithModifications">
+            <summary>
+            Gets the amino acid sequence with modifications
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ResidueCount">
+            <summary>
+            Gets the total number of amino acid residues in this amino acid polymer
+            </summary>
+            <returns>The number of amino acid residues</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ResidueCount(System.Char)">
+            <summary>
+            Gets the number of amino acids residues in this amino acid polymer that
+            has the specified residue letter
+            </summary>
+            <param name="residueChar">The residue letter to search for</param>
+            <returns>The number of amino acid residues that have the same letter in this polymer</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetSiteDeterminingFragments(CSMSL.Proteomics.AminoAcidPolymer,CSMSL.Proteomics.FragmentTypes)">
+            <summary>
+            Calculates the fragments that are different between this and another aminoacidpolymer
+            </summary>
+            <param name="other"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.Fragment(CSMSL.Proteomics.FragmentTypes,System.Boolean)">
+            <summary>
+            Calculates all the fragments of the types you specify
+            </summary>
+            <param name="types"></param>
+            <param name="calculateChemicalFormula"></param>
+            <returns></returns>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.CTerminusModification">
+            <summary>
+            Gets or sets the modification of the C terminus on this amino acid polymer
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.AminoAcidPolymer.NTerminusModification">
+            <summary>
+            Gets or sets the modification of the C terminus on this amino acid polymer
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ModificationCount">
+            <summary>
+            Counts the total number of modifications on this polymer that are not null
+            </summary>
+            <returns>The number of modifications</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ModificationCount(CSMSL.Chemistry.IMass)">
+            <summary>
+            Counts the total number of the specified modification on this polymer
+            </summary>
+            <param name="modification">The modification to count</param>
+            <returns>The number of modifications</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.Contains(CSMSL.Chemistry.IMass)">
+            <summary>
+            Determines if the specified modification exists in this polymer
+            </summary>
+            <param name="modification">The modification to look for</param>
+            <returns>True if the modification is found, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetModification(System.Int32)">
+            <summary>
+            Get the modification at the given residue number
+            </summary>
+            <param name="residueNumber">The amino acid residue number</param>
+            <returns>The modification at the site, null if there isn't any modification present</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,CSMSL.Proteomics.Terminus)">
+            <summary>
+            Sets the modification at the terminus of this amino acid polymer
+            </summary>
+            <param name="mod">The modification to set</param>
+            <param name="terminus">The termini to set the mod at</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,CSMSL.Proteomics.ModificationSites)">
+            <summary>
+            Sets the modification at specific sites on this amino acid polymer
+            </summary>
+            <param name="mod">The modification to set</param>
+            <param name="sites">The sites to set the modification at</param>
+            <returns>The number of modifications added to this amino acid polymer</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,System.Char)">
+            <summary>
+            Sets the modification at specific sites on this amino acid polymer
+            </summary>
+            <param name="mod">The modification to set</param>
+            <param name="letter">The residue character to set the modification at</param>
+            <returns>The number of modifications added to this amino acid polymer</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,CSMSL.Proteomics.IAminoAcid)">
+            <summary>
+            Sets the modification at specific sites on this amino acid polymer
+            </summary>
+            <param name="mod">The modification to set</param>
+            <param name="residue">The residue to set the modification at</param>
+            <returns>The number of modifications added to this amino acid polymer</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,System.Int32)">
+            <summary>
+            Sets the modification at specific sites on this amino acid polymer
+            </summary>
+            <param name="mod">The modification to set</param>
+            <param name="residueNumber">The residue number to set the modification at</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.SetModification(CSMSL.Chemistry.IMass,System.Int32[])">
+             <summary>
+            
+             </summary>
+             <param name="mod"></param>
+             <param name="residueNumbers">(1-based) residue number</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ReplaceModification(CSMSL.Chemistry.IMass,CSMSL.Chemistry.IMass)">
+            <summary>
+            Replaces all instances of the old modification with the new modification in this polymer
+            </summary>
+            <param name="oldMod">The modification to remove</param>
+            <param name="newMod">The modification to replace it with</param>
+            <returns>The number of modifications added to this amino acid polymer</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.AddModification(CSMSL.Chemistry.IMass,CSMSL.Proteomics.Terminus)">
+            <summary>
+            Adds the modification at the terminus of this amino acid polymer, combining modifications if a modification is already present
+            </summary>
+            <param name="modification">The modification to set</param>
+            <param name="terminus">The termini to set the mod at</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.AddModification(CSMSL.Chemistry.IMass,System.Int32)">
+            <summary>
+            Adds the modification at specific sites on this amino acid polymer, combining modifications if a modification is already present
+            </summary>
+            <param name="modification">The modification to set</param>
+            <param name="residueNumber">The residue number to set the modification at</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ClearModifications(CSMSL.Proteomics.Terminus)">
+            <summary>
+            Clears the modification set at the terminus of this amino acid polymer back
+            to the default C or N modifications.
+            </summary>
+            <param name="terminus">The termini to clear the mod at</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ClearModifications(CSMSL.Proteomics.ModificationSites)">
+            <summary>
+            Clear the modifications from the specified sites(s)
+            </summary>
+            <param name="sites">The sites to remove modifications from</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ClearModifications">
+            <summary>
+            Clear all modifications from this amino acid polymer.
+            Includes N and C terminus modifications.
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ClearModifications(CSMSL.Chemistry.IMass)">
+            <summary>
+            Removes the specified mod from all locations on this polymer
+            </summary>
+            <param name="mod">The modification to remove from this polymer</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetChemicalFormula">
+            <summary>
+            Gets the chemical formula of this amino acid polymer.
+            If a modification attached to this polymer does not
+            have a chemical formula, it is not included in the output,
+            thus the return chemical formula may not be accurate.
+            See <see cref="M:CSMSL.Proteomics.AminoAcidPolymer.TryGetChemicalFormula(CSMSL.Chemistry.ChemicalFormula@)"/> for more details
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.TryGetChemicalFormula(CSMSL.Chemistry.ChemicalFormula@)">
+            <summary>
+            Try and get the chemical formula for the whole amino acid polymer. Modifications
+            may not always be of IChemicalFormula and this method will return false if any
+            modification is not a chemical formula
+            </summary>
+            <param name="formula"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ReplaceMod(System.Int32,CSMSL.Chemistry.IMass)">
+            <summary>
+            Replaces a modification (if present) at the specific index in the residue (0-based for N and C termini)
+            </summary>
+            <param name="index">The residue index to replace at</param>
+            <param name="mod">The modification to replace with</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.ParseSequence(System.String)">
+            <summary>
+            Parses a string sequence of amino acids characters into a peptide object
+            </summary>
+            <param name="sequence"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetDigestionPoints(System.String,System.Collections.Generic.IEnumerable{CSMSL.Proteomics.IProtease},System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Gets the digestion points (starting index and length) of a amino acid sequence
+            </summary>
+            <param name="sequence">The sequence to cleave</param>
+            <param name="proteases">The proteases to cleave with</param>
+            <param name="maxMissedCleavages">The maximum number of missed clevages to allow</param>
+            <param name="minLength">The minimum amino acid length of the peptides</param>
+            <param name="maxLength">The maximum amino acid length of the peptides</param>
+            <param name="methionineInitiator"></param>
+            <param name="semiDigestion"></param>
+            <returns>A collection of clevage points and the length of the cut (Item1 = index, Item2 = length)</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcidPolymer.GetCleavageIndices(System.String,System.Collections.Generic.IEnumerable{CSMSL.Proteomics.IProtease},System.Boolean)">
+            <summary>
+            Gets the location of all the possible cleavage points for a given sequence and set of proteases
+            </summary>
+            <param name="sequence">The sequence to determine the cleavage points for</param>
+            <param name="proteases">The proteases to cleave with</param>
+            <param name="includeTermini">Include the N and C terminus (-1 and Length + 1)</param>
+            <returns>A collection of all the sites where the proteases would cleave</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcid.GetResidue(System.String)">
+            <summary>
+            Get the residue based on the residues's symbol
+            </summary>
+            <param name="symbol"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcid.GetResidue(System.Char)">
+            <summary>
+            Gets the resdiue based on the residue's one-character symbol
+            </summary>
+            <param name="letter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.AminoAcid.#cctor">
+            <summary>
+            Construct the actual amino acids
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Peptide.StartResidue">
+            <summary>
+            The amino acid number this peptide is located in its parent
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Peptide.EndResidue">
+            <summary>
+            The amino acid number this peptide is located in its parent
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Peptide.Parent">
+            <summary>
+            The amino acid polymer this peptide came from
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Peptide.PreviousAminoAcid">
+            <summary>
+            The preceding amino acid in its parent
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Peptide.NextAminoAcid">
+            <summary>
+            The next amino acid in its parent
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.Peptide.#ctor(CSMSL.Proteomics.AminoAcidPolymer,System.Boolean)">
+            <summary>
+            Create a new peptide based on another amino acid polymer
+            </summary>
+            <param name="aminoAcidPolymer">The other amino acid polymer to copy</param>
+            <param name="includeModifications">Whether to copy the modifications to the new peptide</param>
+        </member>
+        <member name="M:CSMSL.Proteomics.Protease.Load">
+            <summary>
+            Load the default modification file
+            If the default modification is missing or corrupted, it will auto generate it
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.Protease.Load(System.String)">
+            <summary>
+            Load a protease file
+            </summary>
+            <param name="filePath">The path to the protase file</param>
+        </member>
+        <member name="P:CSMSL.Proteomics.Protein.Description">
+            <summary>
+            The description for the protein
+            </summary>
+        </member>
+        <member name="P:CSMSL.Proteomics.Protein.IsDecoy">
+            <summary>
+            Indicates whether this is a decoy protein or not
+            </summary>
+        </member>
+        <member name="M:CSMSL.Proteomics.Protein.ToFasta">
+            <summary>
+            Converts this protein into the fasta format
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.Protein.Digest(CSMSL.Proteomics.IProtease,System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Digests this protein into peptides.
+            </summary>
+            <param name="protease">The protease to digest with</param>
+            <param name="maxMissedCleavages">The max number of missed cleavages generated, 0 means no missed cleavages</param>
+            <param name="minLength">The minimum length (in amino acids) of the peptide</param>
+            <param name="maxLength">The maximum length (in amino acids) of the peptide</param>
+            <param name="initiatorMethonine"></param>
+            <param name="includeModifications"></param>
+            <param name="semiDigestion"></param>
+            <returns>A list of digested peptides</returns>
+        </member>
+        <member name="M:CSMSL.Proteomics.Protein.Digest(System.Collections.Generic.IEnumerable{CSMSL.Proteomics.IProtease},System.Int32,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Digests this protein into peptides.
+            </summary>
+            <param name="proteases">The proteases to digest with</param>
+            <param name="maxMissedCleavages">The max number of missed cleavages generated, 0 means no missed cleavages</param>
+            <param name="minLength">The minimum length (in amino acids) of the peptide</param>
+            <param name="maxLength">The maximum length (in amino acids) of the peptide</param>
+            <param name="initiatorMethonine"></param>
+            <param name="includeModifications"></param>
+            <param name="semiDigestion"></param>
+            <returns>A list of digested peptides</returns>
+        </member>
+        <member name="T:CSMSL.Proteomics.Terminus">
+            <summary>
+            The terminus of an amino acid polymer N-[Amino Acids]-C
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.Terminus.N">
+            <summary>
+            The N-terminus (amino-terminus)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Proteomics.Terminus.C">
+            <summary>
+            The C-terminus (carboxyl-terminus)
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.ChromatogramType.BasePeak">
+            <summary>
+            Takes the base peak of a spectrum and plots its intensity over time
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.ChromatogramType.MzRange">
+            <summary>
+            Sums the intensity of peaks within a specific m/z range
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.ChromatogramType.TotalIonCurrent">
+            <summary>
+            The total ion current of the spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.ISpectrumTime.Time">
+            <summary>
+            The time associated with this spectrum
+            </summary>
+        </member>
+        <member name="T:CSMSL.Spectral.SmoothingType">
+            <summary>
+            Types of peak smoothing
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.SmoothingType.None">
+            <summary>
+            No smoothing
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.SmoothingType.BoxCar">
+            <summary>
+            Box Car smoothing
+            <para>
+            A Moving Average
+            </para>
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.SmoothingType.SavitzkyGolay">
+            <summary>
+            Savitzky-Golay smoothing
+            </summary>
+        </member>
+        <member name="T:CSMSL.Spectral.Spectrum`2">
+            <summary>
+            Represents the standard m/z spectrum, with intensity on the y-axis and m/z on the x-axis.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.Spectrum`2.Masses">
+            <summary>
+            The m/z of this spectrum in ascending order
+            </summary>
+        </member>
+        <member name="F:CSMSL.Spectral.Spectrum`2.Intensities">
+            <summary>
+            The intensity of this spectrum, linked to their m/z by index in the array
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.Spectrum`2.Count">
+            <summary>
+            The number of peaks in this spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.Spectrum`2.FirstMZ">
+            <summary>
+            The first m/z of this spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.Spectrum`2.LastMZ">
+            <summary>
+            The last m/z of this spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.Spectrum`2.TotalIonCurrent">
+            <summary>
+            The total ion current of this spectrum
+            </summary>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.#ctor(System.Double[],System.Double[],System.Boolean)">
+            <summary>
+            Initializes a new spectrum
+            </summary>
+            <param name="mz">The m/z's</param>
+            <param name="intensities">The intensities</param>
+            <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.#ctor(CSMSL.Spectral.ISpectrum)">
+            <summary>
+            Initializes a new spectrum from another spectrum
+            </summary>
+            <param name="spectrum">The spectrum to clone</param>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.#ctor(System.Double[0:,0:])">
+            <summary>
+            Initializes a new spectrum
+            </summary>
+            <param name="mzintensities"></param>
+        </member>
+        <member name="P:CSMSL.Spectral.Spectrum`2.Item(System.Int32)">
+            <summary>
+            Gets the peak at the specified index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetBasePeakIntensity">
+            <summary>
+            Finds the largest intensity value in this spectrum
+            </summary>
+            <returns>The largest intensity value in this spectrum</returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetMzRange">
+            <summary>
+            Gets the full m/z range of this spectrum
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetMasses">
+            <summary>
+            Gets a copy of the underlying m/z array
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetIntensities">
+            <summary>
+            Gets a copy of the underlying intensity array
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.ToArray">
+            <summary>
+            Converts the spectrum into a multi-dimensional array of doubles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetTotalIonCurrent">
+            <summary>
+            Calculates the total ion current of this spectrum
+            </summary>
+            <returns>The total ion current of this spectrum</returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetMass(System.Int32)">
+            <summary>
+            Gets the m/z value at the specified index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.GetIntensity(System.Int32)">
+            <summary>
+            Gets the intensity value at the specified index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.ContainsPeak">
+            <summary>
+            Checks if this spectrum contains any peaks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.ContainsPeak(CSMSL.IRange{System.Double})">
+            <summary>
+            Checks if this spectrum contains any peaks within the range
+            </summary>
+            <param name="range"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.ContainsPeak(System.Double,System.Double)">
+            <summary>
+            Checks if this spectrum contains any peaks within the range
+            </summary>
+            <param name="minMZ">The minimum m/z (inclusive)</param>
+            <param name="maxMZ">The maximum m/z (inclusive)</param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.CorrectMasses(System.Func{System.Double,System.Double})">
+            <summary>
+            Creates a clone of this spectrum with each mass transformed by some function
+            </summary>
+            <param name="convertor">The function to convert each mass by</param>
+            <returns>A cloned spectrum with masses corrected</returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.Clone">
+            <summary>
+            Returns a new deep clone of this spectrum.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.Spectrum`2.CopyData``1(``0[],System.Boolean)">
+            <summary>
+            Copies the source array to the destination array
+            </summary>
+            <typeparam name="TArray"></typeparam>
+            <param name="sourceArray">The source array to copy from</param>
+            <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
+        </member>
+        <member name="P:CSMSL.Spectral.ISpectrum.Count">
+            <summary>
+            The number of peaks in the spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.ISpectrum.FirstMZ">
+            <summary>
+            The first m/z of the spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.ISpectrum.LastMZ">
+            <summary>
+            The last m/z of the spectrum
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.ISpectrum.TotalIonCurrent">
+            <summary>
+            The total ion current of the spectrum
+            </summary>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetMass(System.Int32)">
+            <summary>
+            Gets the m/z at a particular index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetIntensity(System.Int32)">
+            <summary>
+            Gets the intensity at a particular index
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetMasses">
+            <summary>
+            Gets an array of m/z values for this spectrum
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetIntensities">
+            <summary>
+            Gets an array of intensity values for this spectrum, ordered by m/z value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetBasePeakIntensity">
+            <summary>
+            Get the intensity of the most intense peak in this spectrum
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.ISpectrum.GetTotalIonCurrent">
+            <summary>
+            Get the sum of the intensities for this spectrum
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Spectral.MZSpectrum.#ctor(System.Double[],System.Double[],System.Boolean)">
+            <summary>
+            Initializes a new spectrum
+            </summary>
+            <param name="mz">The m/z's</param>
+            <param name="intensities">The intensities</param>
+            <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
+        </member>
+        <member name="M:CSMSL.Spectral.MZSpectrum.#ctor(CSMSL.Spectral.MZSpectrum)">
+            <summary>
+            Initializes a new spectrum from another spectrum
+            </summary>
+            <param name="mzSpectrum">The spectrum to clone</param>
+        </member>
+        <member name="M:CSMSL.Spectral.MZSpectrum.#ctor(System.Double[0:,0:])">
+            <summary>
+            Initializes a new spectrum
+            </summary>
+            <param name="mzintensities"></param>
+        </member>
+        <member name="F:CSMSL.Spectral.MZSpectrum.Empty">
+            <summary>
+            An empty spectrum
+            </summary>
+        </member>
+        <member name="T:CSMSL.Spectral.IMassSpectrum">
+            <summary>
+            An object that contains a mass spectrum
+            </summary>
+        </member>
+        <member name="T:CSMSL.Spectral.IPeak">
+            <summary>
+            Represents a peak in a 2-dimensional spectra
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.IPeak.X">
+            <summary>
+            The X value of this peak
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.IPeak.Y">
+            <summary>
+            The Y value of this peak
+            </summary>
+        </member>
+        <member name="P:CSMSL.Spectral.MSDataScan`1.MassSpectrum">
+            <summary>
+            The mass spectrum associated with the scan
+            </summary>
+        </member>
+        <member name="T:CSMSL.Spectral.MZPeak">
+            <summary>
+            A peak in a mass spectrum that has a well defined m/z and intenisty value
+            </summary>
+        </member>
+        <member name="T:CSMSL.ToleranceType">
+            <summary>
+            The type of tolerance
+            </summary>
+        </member>
+        <member name="F:CSMSL.ToleranceType.PlusAndMinus">
+            <summary>
+            Plus and Minus (±)
+            </summary>
+        </member>
+        <member name="F:CSMSL.ToleranceType.FullWidth">
+            <summary>
+            Full Width
+            </summary>
+        </member>
+        <member name="T:CSMSL.ToleranceUnit">
+            <summary>
+            The units of tolerance
+            </summary>
+        </member>
+        <member name="F:CSMSL.ToleranceUnit.PPM">
+            <summary>
+            Parts per million
+            </summary>
+        </member>
+        <member name="F:CSMSL.ToleranceUnit.DA">
+            <summary>
+            Daltons
+            </summary>
+        </member>
+        <member name="F:CSMSL.ToleranceUnit.MMU">
+            <summary>
+            Milli Mass Units
+            <para>
+            Equivalent to mDa
+            </para>
+            </summary>
+        </member>
+        <member name="T:CSMSL.IRange`1">
+            <summary>
+            A range of values with a well defined minimum and maximum value
+            </summary>
+            <typeparam name="T">Any type that uses IComparable</typeparam>
+        </member>
+        <member name="P:CSMSL.IRange`1.Minimum">
+            <summary>
+            The minimum value of this range
+            </summary>
+        </member>
+        <member name="P:CSMSL.IRange`1.Maximum">
+            <summary>
+            The maximum value of this range
+            </summary>
+        </member>
+        <member name="M:CSMSL.IRange`1.Contains(`0)">
+            <summary>
+            Checks if an item is within the range
+            </summary>
+            <param name="item">The item to check</param>
+            <returns>True if the item is within minimum and maximum (inclusive)</returns>
+        </member>
+        <member name="M:CSMSL.IRange`1.CompareTo(`0)">
+            <summary>
+            Checks if an item is below, within, or above this range
+            </summary>
+            <param name="item">The item to check</param>
+            <returns>-1 if the item is below, 0 if within (inclusive), or 1 if above</returns>
+        </member>
+        <member name="M:CSMSL.IRange`1.IsSubRange(CSMSL.IRange{`0})">
+            <summary>
+            Checks to see if this range is a proper sub range of another range (inclusive)
+            </summary>
+            <param name="other">The other range to compare to</param>
+            <returns>True if this range is fully enclosed by the other range, false otherwise</returns>
+        </member>
+        <member name="T:CSMSL.Range`1">
+            <summary>
+            A continuous, inclusive range of values, with a well defined minimum and maximum value
+            </summary>
+        </member>
+        <member name="P:CSMSL.Range`1.Maximum">
+            <summary>
+            The maximum value of the range
+            </summary>
+        </member>
+        <member name="P:CSMSL.Range`1.Minimum">
+            <summary>
+            The minimum value of the range
+            </summary>
+        </member>
+        <member name="M:CSMSL.Range`1.CompareTo(`0)">
+            <summary>
+            Determines whether an item is below, above, or contained within a range of values
+            </summary>
+            <param name="item">The item to compare against the range</param>
+            <returns>-1 if item is below the range, 1 if item is above the range, 0 otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.IsSuperRange(CSMSL.IRange{`0})">
+            <summary>
+            Checks to see if this range is a proper super range of another range (inclusive)
+            </summary>
+            <param name="other">The other range to compare to</param>
+            <returns>True if this range is fully encloses the other range, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.IsSubRange(CSMSL.IRange{`0})">
+            <summary>
+            Checks to see if this range is a proper sub range of another range (inclusive)
+            </summary>
+            <param name="other">The other range to compare to</param>
+            <returns>True if this range is fully enclosed by the other range, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.IsOverlapping(CSMSL.IRange{`0})">
+            <summary>
+            Checks to see if this range overlaps another range (inclusive)
+            </summary>
+            <param name="other">The other range to compare to</param>
+            <returns>True if the other range in any way overlaps this range, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.Contains(`0)">
+            <summary>
+            Determines if the item is contained within a range of values
+            </summary>
+            <param name="item">The item to compare against the range</param>
+            <returns>True if the item is within the range (inclusive), false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.ToString">
+            <summary>
+            Returns a formatted string of the range [min - max]
+            </summary>
+            <returns>Format: [min - max]</returns>
+        </member>
+        <member name="M:CSMSL.Range`1.Equals(CSMSL.IRange{`0})">
+            <summary>
+            Compares if two ranges are identical
+            </summary>
+            <param name="other">The other range to compare to</param>
+            <returns>True if both the minimum and maximum values are equivalent, false otherwise</returns>
+        </member>
+        <member name="T:CSMSL.Tolerance">
+            <summary>
+            The tolerance, or error, of two points
+            </summary>
+        </member>
+        <member name="F:CSMSL.Tolerance.StringRegex">
+            <summary>
+            A regex for parsing a string representation of a tolerance
+            <para>
+            i.e., "10 PPM", "-+10 PPM", "5 DA", "±10 MMU", etc...
+            </para>
+            </summary>
+        </member>
+        <member name="M:CSMSL.Tolerance.#ctor(CSMSL.ToleranceUnit,System.Double,CSMSL.ToleranceType)">
+            <summary>
+            Creates a new tolerance given a unit, value, and whether the tolerance is ±
+            </summary>
+            <param name="unit">The units for this tolerance</param>
+            <param name="value">The numerical value of the tolerance</param>
+            <param name="type">Whether the tolerance is full or half width</param>
+        </member>
+        <member name="M:CSMSL.Tolerance.#ctor(CSMSL.ToleranceUnit,System.Double,System.Double,CSMSL.ToleranceType)">
+            <summary>
+            Creates a new tolerance given a unit, two points (one experimental and one theoretical), and whether the tolerance is ±
+            </summary>
+            <param name="unit">The units for this tolerance</param>
+            <param name="experimental">The experimental value</param>
+            <param name="theoretical">The theoretical value</param>
+            <param name="type">Whether the tolerance is full or half width</param>
+        </member>
+        <member name="M:CSMSL.Tolerance.#ctor(System.String)">
+            <summary>
+            Calculates a tolerance from the string representation
+            <para>
+            i.e., "10 PPM", "-+10 PPM", "5 DA", "±10 MMU", etc...
+            </para>
+            </summary>
+            <param name="s"></param>
+        </member>
+        <member name="P:CSMSL.Tolerance.Unit">
+            <summary>
+            The tolerance unit type
+            </summary>
+        </member>
+        <member name="P:CSMSL.Tolerance.Value">
+            <summary>
+            The value of the tolerance
+            </summary>
+        </member>
+        <member name="P:CSMSL.Tolerance.Type">
+            <summary>
+            Indicates if this tolerance is ± or not
+            </summary>
+        </member>
+        <member name="M:CSMSL.Tolerance.GetRange(System.Double)">
+            <summary>
+            Gets the range of values encompassed by this tolerance
+            </summary>
+            <param name="mean">The mean value</param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Tolerance.GetMinimumValue(System.Double)">
+            <summary>
+            Gets the minimum value that is still within this tolerance
+            </summary>
+            <param name="mean"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Tolerance.GetMaximumValue(System.Double)">
+            <summary>
+            Gets the maximum value that is still within this tolerance
+            </summary>
+            <param name="mean"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Tolerance.Within(System.Double,System.Double)">
+            <summary>
+            Indicates if the two values provided are within this tolerance
+            </summary>
+            <param name="experimental">The experimental value</param>
+            <param name="theoretical">The theoretical value</param>
+            <returns>Returns true if the value is within this tolerance  </returns>
+        </member>
+        <member name="T:CSMSL.Polarity">
+            <summary>
+            The polarity of a charge particle
+            </summary>
+        </member>
+        <member name="F:CSMSL.Polarity.Negative">
+            <summary>
+            Negative charge
+            </summary>
+        </member>
+        <member name="F:CSMSL.Polarity.Neutral">
+            <summary>
+            Neutral charge
+            </summary>
+        </member>
+        <member name="F:CSMSL.Polarity.Positive">
+            <summary>
+            Positive charge
+            </summary>
+        </member>
+        <member name="T:CSMSL.Util.Collections.SortedMaxSizedContainer`1">
+            <summary>
+            A container that stores items in sorted order with a specified maximum capacity.
+            <example>
+            Storing the top 5 peptide spectral matches for a given spectrum, sorted on match score
+            </example>
+            </summary>
+            <typeparam name="T">The type of the object to store in this container</typeparam>
+        </member>
+        <member name="F:CSMSL.Util.Collections.SortedMaxSizedContainer`1.SizeForLinearOrBinarySearch">
+            <summary>
+            The breaking point between using a linear search or a binary search.
+            </summary>
+        </member>
+        <member name="F:CSMSL.Util.Collections.SortedMaxSizedContainer`1._items">
+            <summary>
+            The collection of items, in sorted order, 0 being the lowest value
+            </summary>
+        </member>
+        <member name="F:CSMSL.Util.Collections.SortedMaxSizedContainer`1._comparer">
+            <summary>
+            The comparer to compare two items in this collection
+            </summary>
+        </member>
+        <member name="P:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Count">
+            <summary>
+            Gets the number of items that are currently stored in this container
+            </summary>
+        </member>
+        <member name="P:CSMSL.Util.Collections.SortedMaxSizedContainer`1.MaxSize">
+            <summary>
+            Gets the max number of items that can be stored in this container
+            </summary>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.#ctor(System.Int32,System.Collections.Generic.IComparer{`0})">
+            <summary>
+            Creates a new container with a specified maximum size and comparer
+            </summary>
+            <param name="maxSize">The maximum number of items to store in this container</param>
+            <param name="comparer">The comparer to compare two items in this collection</param>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.#ctor(System.Int32)">
+            <summary>
+            Creates a new container with a specified maximum size and the default comparer
+            </summary>
+            <param name="maxSize">The maximum number of items to store in this container</param>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Add(`0)">
+            <summary>
+            Attempts to add an item to this container
+            </summary>
+            <param name="item">The item to add</param>
+            <returns>True if the item was added, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Clear">
+            <summary>
+            Remove all the items from this container
+            </summary>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Insert(`0)">
+            <summary>
+            Insert the item into the data structure
+            </summary>
+            <param name="item">The item to insert</param>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.ShiftAndInsert(`0,System.Int32)">
+            <summary>
+            Shift items down to make room for the new insert
+            </summary>
+            <param name="item">The item to insert</param>
+            <param name="index">The index to insert the item at</param>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Contains(`0)">
+            <summary>
+            Checks if the item exists in this container
+            </summary>
+            <param name="item">The item to check for</param>
+            <returns>True if it exists, false otherwise</returns>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the contents of this collection to an array
+            </summary>
+            <param name="array">The array to copy to</param>
+            <param name="arrayIndex">The start index of the array</param>
+        </member>
+        <member name="M:CSMSL.Util.Collections.SortedMaxSizedContainer`1.GetEnumerator">
+            <summary>
+            Get the enumerator of all non-null items in this container
+            </summary>
+            <returns>The enumerator of all non-null items in this container</returns>
+        </member>
+        <member name="P:CSMSL.Util.Collections.SortedMaxSizedContainer`1.Item(System.Int32)">
+            <summary>
+            Get the item stored at this index
+            </summary>
+            <param name="index">The index of the item to get</param>
+            <returns>The item stored at this index</returns>
+        </member>
+        <member name="P:CSMSL.Util.Collections.SortedMaxSizedContainer`1.IsReadOnly">
+            <summary>
+            This Collection is not read only by design
+            </summary>
+        </member>
+        <member name="M:CSMSL.Util.Combinatorics.CumBinom(System.Int64,System.Double,System.Int64)">
+            <summary>
+            Calculates the exact cumulative binomial probability.
+            </summary>
+            <param name="s">the number of successes</param>
+            <param name="p">the probability of success</param>
+            <param name="N">the number of trials</param>
+            <returns>the probability of obtaining at least as many successes by random chance</returns>
+        </member>
+        <member name="M:CSMSL.Util.Combinatorics.BinomCoefficient(System.Int64,System.Int64)">
+            <summary>
+            Calculates the binomial coefficient (nCk) (N items, choose k)
+            </summary>
+            <param name="n">the number items</param>
+            <param name="k">the number to choose</param>
+            <returns>the binomial coefficient</returns>
+        </member>
+        <member name="M:CSMSL.Util.Combinatorics.LargestV(System.Int64,System.Int64,System.Int64)">
+            <summary>
+            Returns the largest value v where v is less than a and Choose(v,b) is less than or equal to x
+            </summary>
+            <param name="a"></param>
+            <param name="b"></param>
+            <param name="x"></param>
+            <returns></returns>
+        </member>
+        <member name="M:CSMSL.Util.Combinatorics.AScore(System.Int32,System.Int32,System.Double,System.Int32)">
+            <summary>
+            Calculates the Ambiguity score (AScore)
+            </summary>
+            <param name="n1">The number of matches for the best scoring isoform</param>
+            <param name="n2">The number of matches for the second best scoring isoform</param>
+            <param name="p">The probability of randomly matching a peak</param>
+            <param name="N">Total number of tries (usually # of site-determining fragments)</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
