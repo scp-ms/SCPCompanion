@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCPCompanion", "SCPCompanion\SCPCompanion.csproj", "{5370C0E7-A19C-4476-BEDF-FF876F35DE54}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMSL", "..\..\..\Documents\CSMSL\CSMSL\CSMSL.csproj", "{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Automated_Build|Any CPU = Automated_Build|Any CPU
+		Automated_Build|x64 = Automated_Build|x64
+		Automated_Build|x86 = Automated_Build|x86
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|Any CPU.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|Any CPU.Build.0 = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|x64.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|x64.Build.0 = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|x86.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Automated_Build|x86.Build.0 = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|x64.Build.0 = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Debug|x86.Build.0 = Debug|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|x64.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|x64.Build.0 = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|x86.ActiveCfg = Release|Any CPU
+		{5370C0E7-A19C-4476-BEDF-FF876F35DE54}.Release|x86.Build.0 = Release|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|Any CPU.ActiveCfg = Automated_Build|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|Any CPU.Build.0 = Automated_Build|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|x64.ActiveCfg = Automated_Build|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|x64.Build.0 = Automated_Build|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|x86.ActiveCfg = Automated_Build|x86
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Automated_Build|x86.Build.0 = Automated_Build|x86
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|x64.ActiveCfg = Debug|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|x64.Build.0 = Debug|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|x86.ActiveCfg = Debug|x86
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Debug|x86.Build.0 = Debug|x86
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|x64.ActiveCfg = Release|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|x64.Build.0 = Release|x64
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|x86.ActiveCfg = Release|x86
+		{3C8C9F05-9C19-4251-95FA-05D7EDC8CAE6}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA9D2C0A-6D0E-4D74-B47B-9EE06B77C5FD}
+	EndGlobalSection
+EndGlobal
