@@ -1,0 +1,2 @@
+RawFileName,MS1Scans,MS2Scans,Median MS2 IT,Median Sum SN,Median Ion Flux,User Defined Carrier Ratio,Calculated Carrier Ratio,Used Calculated Carrier Rato,Suggested SN Cutoff,Suggested Max IT,SN Adjustment,Max IT Adjustment,Slope,yIntercept
+20191012_Lum1_OBJ39421_QLSCOUT_SCOPE_20xCarrier_1e5_300ms_8x_01,2363,11256,300,323.48,1.23,100,27.61,True,300,400,1.2,1.5,12.77,-61.24
