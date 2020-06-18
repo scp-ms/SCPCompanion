@@ -43,13 +43,13 @@
   </dependency>
   <dependency>
     <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CSMSL.dll" size="318976">
-      <assemblyIdentity name="CSMSL" version="0.3.7430.16438" language="neutral" processorArchitecture="amd64" />
+      <assemblyIdentity name="CSMSL" version="0.3.7469.19757" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Kx0yYaD6ODOyR6khwfraTaC//NgAW2Fle1+akHPxrlE=</dsig:DigestValue>
+        <dsig:DigestValue>ldK9yAmAYcuLbp4CUtjLbmjiEn2b2RFZoFAV2mbFcHo=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SCPCompanion.exe" size="57280">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="SCPCompanion.exe" size="69568">
       <assemblyIdentity name="SCPCompanion" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>nzUTWM6Mnrpgnl7FVXDAHq4B95qzGO22Y1o3qZ+Rlq8=</dsig:DigestValue>
+        <dsig:DigestValue>GPQfR7AzVPDvtzu9XHyKz9jxZAAJRUgYE+8PDXvJNMQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
