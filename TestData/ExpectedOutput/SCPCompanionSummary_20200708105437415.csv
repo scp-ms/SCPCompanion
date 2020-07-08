@@ -1,0 +1,2 @@
+RawFileName,MS1Scans,MS2Scans,Median MS2 IT,Median Sum SN,Median Ion Flux,Meian Quant SN,Median Quant Ion Flux,Estimated Carrier Ratio,Suggested Quant SN Cutoff,Suggested Max IT,SN Adjustment,Max IT Adjustment,SN per Channel,Number of Blanks
+20191012_Lum1_OBJ39421_QLSCOUT_SCOPE_20xCarrier_1e5_300ms_8x_01,2363,11256,300,323.48,0.97,107.54,0.346,23.49,126,546,1.05,1.5,15,0
